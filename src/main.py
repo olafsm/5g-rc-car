@@ -19,14 +19,19 @@ pwm.start(0) # Initialization
 try:
   while True:
       setAngle(0)
-      sleep(1)
+      print(0)
+      sleep(2)
       setAngle(45)
-      sleep(1) 
+      print(45)
+      sleep(2) 
       setAngle(90)
-      sleep(1)
+      print(90)
+      sleep(2)
       setAngle(135)
-      sleep(1)
+      print(135)
+      sleep(2)
       setAngle(180)
+      print(180)
     
 except KeyboardInterrupt:
   pwm.stop()
