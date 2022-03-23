@@ -12,6 +12,10 @@
 */
 #define SLAVE_ADDRESS 0x04
 
+#define CLK 4
+#define DT 3
+#define SW 2
+
 
 int number = 0;
 int state = 0;
@@ -20,6 +24,8 @@ Servo ESCServo;
 Servo ESCMotor;
 
 void setup() {
+
+  lastStateCLK = digitalRead(CLK);
 
   pinMode(13, OUTPUT);
   Serial.begin(9600);
@@ -50,13 +56,15 @@ void receiveData(int byteCount) {
 
     // 0-127 for motor control, 128-255 for servo steering
     if (number <= 127) {
-      ESCMotor.write(number);
+      mapped_number = map(number, 0,127,950,1150)
+      ESCMotor.writeMicroseconds(mapped_number);
       Serial.print("Motor control: ");
     } else {
-      ESCServo.write(number);
+      mapped_number = map(number(128,255,1000,2000)
+      ESCServo.write(mapped_number);
       Serial.print("Steering control: ");
     }
-    Serial.println(number);
+      Serial.println(mapped_number)
   }
 }
 
