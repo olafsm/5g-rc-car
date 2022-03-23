@@ -19,7 +19,7 @@ def on_message(client, userdata, message):
 def send_inputs():
     # inputs[0] fram/tilbake
     # inputs[1] høyre/venstre
-    inputs = XboxController()
+    #inputs = XboxController()
 
     last_gas_ms = get_ms()
     last_steer_ms = get_ms()
@@ -27,7 +27,9 @@ def send_inputs():
     last_steer = 0
     while 1:
         time.sleep(0.001)
-        steer, gas = inputs.read()
+        steer = int(input(">>>>"))
+        gas = 0
+        #steer, gas = inputs.read()
         #if (abs(last_steer-steer) > 0.3) or (get_ms()-last_steer_ms > 300):
         if (abs(last_steer-steer) > 0.0):
             #print(get_ms() - last_steer_ms)
@@ -49,7 +51,7 @@ def send_inputs():
             last_gas = gas
             client.publish("gas", time.time_ns(), qos=0)
 
-if 0:
+if 1:
     client = mqtt.Client("pc",transport="websockets")
     client.connect("smaaberg.dev", 9001)
 elif 0:
