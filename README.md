@@ -1,8 +1,6 @@
 # 5g-rc-car
 5G-styrt bil. Eksperter i team prosjekt @NTNU
 
-Welcome to the 5g-rc-car wiki!
-
 # Setup & install
 ```shell
 $ sudo apt-get update
