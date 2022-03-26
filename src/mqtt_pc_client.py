@@ -19,21 +19,25 @@ def on_message(client, userdata, message):
 def send_inputs():
     # inputs[0] fram/tilbake
     # inputs[1] høyre/venstre
-    #inputs = XboxController()
+    inputs = XboxController()
 
     last_gas_ms = get_ms()
     last_steer_ms = get_ms()
     last_gas = 0
     last_steer = 0
     while 1:
-        time.sleep(0.001)
-        steer = int(input(">>>>"))
+        steer = 0
         gas = 0
-        #steer, gas = inputs.read()
-        #if (abs(last_steer-steer) > 0.3) or (get_ms()-last_steer_ms > 300):
-        if (abs(last_steer-steer) > 0.0):
+        try:
+            pass
+            #steer = int(input(">>>>"))
+        except Exception as e:
+            continue
+        steer, gas = inputs.read()
+        if (abs(last_steer-steer) > 0.3) or (get_ms()-last_steer_ms > 300):
+        #if (abs(last_steer-steer) > 0.0):
             #print(get_ms() - last_steer_ms)
-            #print("Steer: ", steer)
+            print("Steer: ", steer)
 
             last_steer_ms = get_ms()
             last_steer = steer
@@ -42,10 +46,10 @@ def send_inputs():
         if gas<0:
             gas = 0
 
-        #if (abs(last_gas-gas) > 0.3) or (get_ms()-last_gas_ms > 300):
-        if (abs(last_gas-gas) > 0.0):
+        if (abs(last_gas-gas) > 0.3) or (get_ms()-last_gas_ms > 300):
+        #if (abs(last_gas-gas) > 0.0):
             #print(get_ms() - last_gas_ms)
-            #print("Gas: ", gas)
+            print("Gas: ", gas)
 
             last_gas_ms = get_ms()
             last_gas = gas

@@ -12,9 +12,6 @@
 */
 #define SLAVE_ADDRESS 0x04
 
-#define CLK 4
-#define DT 3
-#define SW 2
 
 
 int number = 0;
@@ -38,9 +35,9 @@ void setup() {
   Wire.onReceive(receiveData);
   Wire.onRequest(sendData);
 
-  ESCServo.attach(SERVO_PIN);
   ESCMotor.attach(MOTOR_PIN);
-  
+  ESC.write(90)
+  ESCServo.attach(SERVO_PIN);
   Serial.println("Ready!");
 }
 
