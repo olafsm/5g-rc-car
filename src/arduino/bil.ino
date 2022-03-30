@@ -2,7 +2,7 @@
 #include <Servo.h>
 
 #define SERVO_PIN 9
-#define MOTOR_PIN 10
+#define MOTOR_PIN 8
 /*
     Raspberry pi & Arduino PINOUTS
     http://christianto.tjahyadi.com/wp-content/uploads/2014/11/nano.jpg
@@ -16,15 +16,13 @@
 
 int number = 0;
 int state = 0;
-
+int mapped_number = 0;
 Servo ESCServo;
 Servo ESCMotor;
 
 void setup() {
 
-  lastStateCLK = digitalRead(CLK);
 
-  pinMode(13, OUTPUT);
   Serial.begin(9600);
 
   // initialize i2c as slave
@@ -36,7 +34,6 @@ void setup() {
   Wire.onRequest(sendData);
 
   ESCMotor.attach(MOTOR_PIN);
-  ESC.write(90)
   ESCServo.attach(SERVO_PIN);
   Serial.println("Ready!");
 }
@@ -53,15 +50,16 @@ void receiveData(int byteCount) {
 
     // 0-127 for motor control, 128-255 for servo steering
     if (number <= 127) {
-      mapped_number = map(number, 0,127,950,1150)
+      mapped_number = map(number, 0,127,950,1300);
       ESCMotor.writeMicroseconds(mapped_number);
       Serial.print("Motor control: ");
+      Serial.println(mapped_number);
     } else {
-      mapped_number = map(number(128,255,1000,2000)
+      mapped_number = map(number, 128,255,1000,2000);
       ESCServo.write(mapped_number);
       Serial.print("Steering control: ");
+      Serial.println(mapped_number);
     }
-      Serial.println(mapped_number)
   }
 }
 
