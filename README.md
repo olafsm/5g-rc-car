@@ -10,7 +10,7 @@ $ sudo apt-get install mosquitto mosquitto-clients
 $ sudo nano /etc/mosquitto/conf.d/default.conf
 $ sudo systemctl restart mosquitto
 ```
-`/etc/conf.d/defaultconf`
+`/etc/mosquitto/conf.d/defaultconf`
 ```
 allow_anonymous false
 password_file /etc/mosquitto/passwd
