@@ -16,6 +16,23 @@ def on_message(client, userdata, message):
     t = int(message.payload.decode("utf-8"))
     print((time.time_ns() - t)/1000000)
 
+def translate_steps(v):
+    if v<=-0.9:
+        return -0.1
+    if v<=-0.5:
+        return -0.66
+    if v<=-0.1:
+        return -0.33
+    if v<=0.1:
+        return 0.0
+    if v<=0.5:
+        return 0.33
+    if v<=0.9:
+        return 0.66
+    if v>0.9:
+        return 1.0
+    return 0
+
 def send_inputs():
     # inputs[0] fram/tilbake
     # inputs[1] høyre/venstre
@@ -34,9 +51,9 @@ def send_inputs():
         except Exception as e:
             continue
         steer, gas = inputs.read()
-        if (abs(last_steer-steer) > 0.3) or (get_ms()-last_steer_ms > 300):
-        #if (abs(last_steer-steer) > 0.0):
-            #print(get_ms() - last_steer_ms)
+        steer = translate_steps(steer)
+        gas = translate_steps(gas)
+        if (abs(last_steer-steer) < 0.0003):
             print("Steer: ", steer)
 
             last_steer_ms = get_ms()
@@ -46,9 +63,7 @@ def send_inputs():
         if gas<0:
             gas = 0
 
-        if (abs(last_gas-gas) > 0.3) or (get_ms()-last_gas_ms > 300):
-        #if (abs(last_gas-gas) > 0.0):
-            #print(get_ms() - last_gas_ms)
+        if (abs(last_steer-steer) < 0.0003):
             print("Gas: ", gas)
 
             last_gas_ms = get_ms()
