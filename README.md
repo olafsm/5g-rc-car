@@ -1,7 +1,9 @@
 # 5g-rc-car
 5G-styrt bil. Eksperter i team prosjekt @NTNU
 
-# Setup & install
+# Setup & install 
+
+## MQTT Broker
 ```shell
 $ sudo apt-get update
 $ sudo apt-get install mosquitto mosquitto-clients
@@ -24,6 +26,28 @@ protocol websockets
 ```shell
 $ cd Desktop/5g/Goonline
 $ sudo ./simcom-cm
+or to get a public IP address use
+$ sudo ./simcom-cm -s vpn.telia.net
+```
+## 5g-modem AT commands
+```shell
+$ sudo apt-get install minicom
+$ sudo minicom -D /dev/ttyUSB2
+5g:
+AT+CNMP=71
+LTE:
+AT+CNMP=38
+```
+## PC Client start
+```shell
+$ pip install -r requirements.txt
+$ cd src
+$ python mqtt_pc_client.py
+```
+## Raspberry pi client start
+```shell
+$ pip install -r requirements.txt
+$ cd src
+$ python mqtt_raspberrypi.py
 ```
 
-## PC Client start
