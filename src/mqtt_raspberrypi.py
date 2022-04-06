@@ -1,3 +1,4 @@
+from tkinter.messagebox import RETRY
 import paho.mqtt.client as mqtt #import the client1
 import time
 from smbus import SMBus
@@ -15,35 +16,6 @@ def translate_range(v, from_min,from_max, to_min, to_max):
 
     return to_min + (valueScaled * to_span)
 
-
-class messager:
-    def __init__(self):
-        self.gc = 0
-        self.sc = 0
-        self.gas = 0
-        self.steer = 0
-    def on_message(self, client, userdata, message):
-        try:
-            t = int(message.payload.decode("utf-8"))
-        except Exception as E:
-            print("not integer")
-
-        if(message.topic == "gas"):
-            self.gc += 1
-            self.gas += (time.time_ns() - t)/1000000
-            if self.gc%10 == 0:
-                print("Avg latency last 10 steer: ", self.gas/10)
-                bus.write_byte_data(SLAVE_ADDRESS, 0x80)
-                self.gc = 0
-
-        if(message.topic == "steer"):
-            self.sc += 1
-            self.steer += (time.time_ns() - t)/1000000
-            if self.sc%10 == 0:
-                print("Avg latency last 10 steer: ", self.steer/10)
-                bus.write_byte_data(SLAVE_ADDRESS, 0x80)
-                self.sc = 0
-
 def on_connect(client, userdata, flags, rc):
     print("Connected with result code "+str(rc))
 
@@ -54,13 +26,12 @@ def on_message(client, userdata, message):
     except Exception as E:
         print("not integer")
         return
-    #t_d = (time.time_ns() - t)/1000000
     if(message.topic == "gas"):
         bus.write_byte_data(SLAVE_ADDRESS, translate_range(t, 0,1,0,127))
-        print("gas:", t_d)
+        print("gas:", t)
 
     if(message.topic == "steer"):
-        print("steer:", t_d)
+        print("steer:", t)
         bus.write_byte_data(SLAVE_ADDRESS, translate_range(t, 0,1,128,255))
 
 
@@ -68,7 +39,6 @@ def on_message(client, userdata, message):
 def on_message3(client, userdata, message):
     client.publish("ALLO", message.payload)
 
-m = messager()
 
 if 0:
     client = mqtt.Client("Raspi",transport="websockets")
