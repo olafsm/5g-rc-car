@@ -46,7 +46,7 @@ $ python mqtt_pc_client.py
 ```
 ## Raspberry pi client start
 ```shell
-$ sudo chown 666 /dev/ttyS0/
+$ sudo chmod 666 /dev/ttyS0
 $ pip install -r requirements.txt
 $ cd src
 $ python mqtt_raspberrypi.py
